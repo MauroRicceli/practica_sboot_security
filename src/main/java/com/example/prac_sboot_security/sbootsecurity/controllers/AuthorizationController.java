@@ -33,4 +33,10 @@ public class AuthorizationController {
     public ResponseEntity<TokenResponseDTO> refreshTokenUser(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader){
         return new ResponseEntity<>(authorizationService.refrescarToken(authHeader), HttpStatus.ACCEPTED);
     }
+
+    @PostMapping(value ="/logout", produces = "application/json")
+    public ResponseEntity<String> logout(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader){
+        return new ResponseEntity<>("Logout succesfull", HttpStatus.ACCEPTED);
+    }
+
 }

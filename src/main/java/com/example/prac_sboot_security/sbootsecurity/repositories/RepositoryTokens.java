@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -21,5 +22,12 @@ public interface RepositoryTokens extends JpaRepository<TokenEntity, Long> {
     @Modifying
     @Transactional
     @Query("UPDATE TokenEntity t SET t.revoked = true, t.expired = true WHERE t.userEntity =:userID")
-    void revocarOExpirarTokens(@Param("userID") UserEntity userID);
+    void revocarOExpirarTokensUsuario(@Param("userID") UserEntity userID);
+
+    Optional<TokenEntity> findByToken(String token);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE TokenEntity t SET t.revoked = true, t.expired = true WHERE t.token =:token")
+    void revocarOExpirarToken(@Param("token") String token);
 }

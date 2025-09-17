@@ -57,7 +57,7 @@ public class AuthorizationService {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
         UserEntity user = repositoryUsers.findByEmail(loginRequest.getEmail()).orElseThrow();
 
-        repositoryTokens.revocarOExpirarTokens(user);
+        repositoryTokens.revocarOExpirarTokensUsuario(user);
 
         repositoryTokens.save(TokenEntity.builder()
                 .token(jwtService.generateToken(user))
@@ -72,7 +72,7 @@ public class AuthorizationService {
     }
 
     private void revocarTokensUsuario(UserEntity user){
-        repositoryTokens.revocarOExpirarTokens(user);
+        repositoryTokens.revocarOExpirarTokensUsuario(user);
     }
 
     public TokenResponseDTO refrescarToken(String authHeader){
@@ -96,7 +96,7 @@ public class AuthorizationService {
         String tkn = jwtService.generateToken(user);
         String refTkn = jwtService.generateRefreshToken(user);
 
-        repositoryTokens.revocarOExpirarTokens(user);
+        repositoryTokens.revocarOExpirarTokensUsuario(user);
         repositoryTokens.save(TokenEntity.builder()
                 .tokenType(TokenEntity.TokenType.BEARER)
                 .token(tkn)
